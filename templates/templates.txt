@@ -1,0 +1,2 @@
+This folder contains the Jinja templates for each view.
+The subfolders are for each group of related views.

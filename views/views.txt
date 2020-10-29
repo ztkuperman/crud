@@ -1,0 +1,3 @@
+The views folder contains the functions for each route in the app.
+The functions, called views, are run when a request comes in for a specific url path.
+Each file contains a related set of views.

@@ -1,0 +1,10 @@
+{% extends "shared/_layout.html" %}
+{% block title %} Read page {% endblock %}
+{% block main_content %}
+<ul>
+    {% for p in posts %}
+    <li> <strong>{{p.title}}</strong> <a href="update/{{p.id}}">Edit</a> <br/> 
+         <p>{{p.content}}</p> </li>
+    {% endfor %}
+</ul>
+{% endblock %}

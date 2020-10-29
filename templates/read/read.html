@@ -1,0 +1,7 @@
+{% extends "shared/_layout.html" %}
+{% block title %} Read specific post {% endblock %}
+{% block additional_js %} {% endblock %}
+{% block main_content %}
+    {{post.title}} <a href="/update/{{post.id}}">Edit</a>  <br> 
+    {{post.content}}
+{% endblock %}

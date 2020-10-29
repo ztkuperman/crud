@@ -1,0 +1,3 @@
+This folder contains all the different data access capabilities for the app.
+Each file in this folder should be a different service.
+A service has all the functions needed for accessing data for a specific purpose, such as users, or data.
