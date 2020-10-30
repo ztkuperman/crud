@@ -3,7 +3,7 @@
 {% block addition_css %} {% endblock %}
 {% block additional_js %} {% endblock %}
 {% block main_content %}
-<form action="/update/{{id}}" method="POST" accept-charset="utf-8">
+<form action="/create" method="POST" accept-charset="utf-8">
     {{form.hidden_tag()}}
     {{form.title.label}} {{form.title}}
     {% if form.title.errors %}

@@ -1,0 +1,4 @@
+Viewmodels contains a folder for each _views.py file in /views.
+In each folder is a viewmodel for each view function that uses data.
+
+The shared folder contains the base class for viewmodels, which get the basic information loaded into the viewmodel.

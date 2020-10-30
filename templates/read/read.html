@@ -2,6 +2,13 @@
 {% block title %} Read specific post {% endblock %}
 {% block additional_js %} {% endblock %}
 {% block main_content %}
-    {{post.title}} <a href="/update/{{post.id}}">Edit</a>  <br> 
-    {{post.content}}
+    <div>
+        <a href="/update/{{post.id}}">Edit</a> 
+        <a href="/delete/{{post.id}}" onclick="return confirm('Are you sure you want to delete this item?');">Delete</a>
+        <article>
+            <h2>{{post.title}}</h2>
+            <p>{{post.content}}</p>
+        </article> 
+    </div>
+
 {% endblock %}

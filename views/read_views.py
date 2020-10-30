@@ -7,8 +7,8 @@ blueprint = flask.Blueprint('read', __name__, template_folder='templates')
 @blueprint.route('/')
 @response(template_file = 'read/index.html')
 def index():
-    test_posts = post_svc.get_posts()
-    return {'posts':test_posts}
+    posts = post_svc.get_posts()
+    return {'posts': posts}
 
 @blueprint.route('/read/<int:post_id>')
 @response(template_file= 'read/read.html')

@@ -1,0 +1,1 @@
+This folder contains functions related to running the app, but are not accessing data or handling route views.

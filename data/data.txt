@@ -1,0 +1,6 @@
+This folder contains the files for creating the DB.
+
+__all_models.py - Contains imports of all the data classes from a single place.
+db_session.py - Contains code for creating the DB
+
+This folder should also contain files for each class used by SA's ORM to create a table.

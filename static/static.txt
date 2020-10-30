@@ -1,0 +1,2 @@
+This folder contains static resources.
+They need to have their own folder for deployment. When deployed the web server will direct requests to the app, but serve static resources directly, for higher efficiency.

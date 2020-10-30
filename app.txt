@@ -1,0 +1,12 @@
+The app is contained in this folder.
+
+app.py          - Starts the web app
+bin             - Utility functions unrelated to running the webapp.
+data            - Functions and files needed for DB setup.
+db              - The SQLite DB, if using.
+infrastructure  - Utility functions related to running the webapp.
+services        - Files to provide any data access functions in the webapp.
+static          - Static files used by the webapp. (CSS and images)
+template        - Jinja2 Templates.
+viewmodels      - Viewmodels for each view
+view            - Views for each route
