@@ -1,0 +1,29 @@
+{% extends "shared/_layout.html" %}
+{% block title %} Update page {% endblock %}
+{% block additional_css %}
+{% endblock %}
+{% block additional_js %}
+<script src="static/tinymce/tinymce.min.js" ></script>
+<script>
+      tinymce.init({
+        selector: '#editor',
+        plugins: 'save',
+        toolbar: 'styleselect | h1 bold italic underline formatselect | undo redo ' +
+      'outdent indent | save ',
+  });
+    </script>
+{% endblock %}
+{% block main_content %}
+  <h1>Post Creator</h1>
+    <form method="POST" action=
+      {% if post_id == 0 %}
+        '/create' 
+      {% else %}
+        '/update/{{post_id}}'
+          {% endif %}>
+      <label for="title"></label>
+      <input type="string" name="title" value="{{title}}"/>
+      <label for="editor"></label>
+      <textarea id="editor" name='editor'>{{content}}</textarea>
+    </form>
+{% endblock %}
