@@ -2,6 +2,8 @@ import os
 import sys
 
 import flask
+from flask import session
+from flask_session import Session
 
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
@@ -9,17 +11,25 @@ import crud.data.db_session as db_session
 
 app = flask.Flask(__name__)
 
+SESSION_TYPE = 'filesystem'
+SESSION_FILE_DIR = os.path.join(os.path.dirname(__file__), 'cache')
+
 
 def main():
     configure()
+    Session(app)
     app.run(debug=True, port=5006)
 
 
 def configure():
     print("Configuring Flask app:")
     SECRET_KEY = os.urandom(32)
-    app.config['SECRET_KEY'] = SECRET_KEY
     register_blueprints()
+    app.config['SECRET_KEY'] = os.urandom(32)
+    app.config['SESSION_TYPE'] = "filesystem"
+    app.config['SESSION_FILE_DIR'] = os.path.join(
+                                    os.path.dirname(__file__), 'cache')
+
     print("Registered blueprints")
 
     setup_db()
