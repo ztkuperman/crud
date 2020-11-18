@@ -1,4 +1,5 @@
 import flask
+from flask import flash
 from infrastructure.view_modifiers import response
 import services.post_service as post_svc
 

@@ -15,6 +15,9 @@
     {% block additional_js %} {% endblock %}
 </head>
 <body>
+  <header id="header" class="">
+    
+
  <nav class="navbar navbar-expand navbar-dark bg-dark">
       <a class="navbar-brand" href="/">CRUD app</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
@@ -28,14 +31,27 @@
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/create">Create</a>
-          </li>        
+          </li>
+          {% if session.username %}
+          <li class="nav-item">
+            <a class="nav-link" href="/logout">Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="/login">Login</a>
+          </li>
+          {% endif %} 
         </ul>
-        <form class="form-inline my-2 my-md-0">
-          <input class="form-control" type="text" placeholder="Search" aria-label="Search">
-        </form>
       </div>
-    </nav>   
-
+    </nav>
+    <div id='user'>
+      {% if session.username %} 
+        Hello, {{session.username}}
+      {% else %}
+        Hello, Guest
+      {% endif %}
+    </div>
+    </header><!-- /header -->
         {% block main_content %} {% endblock %}
 </body>
 </html>

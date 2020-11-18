@@ -50,10 +50,13 @@ def register_blueprints():
     from crud.views import read_views
     from crud.views import update_views
     from crud.views import editor_views
+    from crud.views import auth_views
 
     app.register_blueprint(read_views.blueprint)
     app.register_blueprint(update_views.blueprint)
     app.register_blueprint(editor_views.blueprint)
+    app.register_blueprint(auth_views.blueprint)
+
 if __name__ == '__main__':
     main()
 else:
