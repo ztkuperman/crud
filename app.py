@@ -2,7 +2,7 @@ import os
 import sys
 
 import flask
-from flask import session
+from flask import session, request
 from flask_session import Session
 
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
@@ -26,6 +26,8 @@ def configure():
     SECRET_KEY = os.urandom(32)
     register_blueprints()
     app.config['SECRET_KEY'] = os.urandom(32)
+    # Configuration for flask-session
+    app.config['SESSION_PERMANENT'] = False
     app.config['SESSION_TYPE'] = "filesystem"
     app.config['SESSION_FILE_DIR'] = os.path.join(
                                     os.path.dirname(__file__), 'cache')
@@ -56,6 +58,18 @@ def register_blueprints():
     app.register_blueprint(update_views.blueprint)
     app.register_blueprint(editor_views.blueprint)
     app.register_blueprint(auth_views.blueprint)
+
+# This is only here to avoid a circular import issue.
+# Once I find a better solution, I'll switch to that.
+@app.before_request
+def rememberme_check():
+    import services.auth_service as auth_svc
+    if session.get('username') == None:
+        name = request.cookies.get('username')
+        token = request.cookies.get('rememberme')
+        if name and token:
+            auth_svc.validate_rememberme(name,token)
+
 
 if __name__ == '__main__':
     main()

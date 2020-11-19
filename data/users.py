@@ -14,4 +14,4 @@ class User(SqlAlchemyBase):
     created_date = sa.Column(sa.DateTime, default=dt.now, index=True)
     profile_image = sa.Column(sa.String)
     last_login = sa.Column(sa.DateTime, default=dt.now, index=True)
-    #rememberme_token = sa.Column(sa.String, nullable=True)
+    rememberme_token = sa.Column(sa.String, nullable=True)
