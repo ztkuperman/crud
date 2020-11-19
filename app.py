@@ -61,14 +61,18 @@ def register_blueprints():
 
 # This is only here to avoid a circular import issue.
 # Once I find a better solution, I'll switch to that.
+# It is meant to run when a new session is created.
 @app.before_request
-def rememberme_check():
+def new_session():
     import services.auth_service as auth_svc
+    #print("session.new = " + str(session.new))
+    if session.get('csrf_tokens') == None:
+        session['csrf_tokens'] = []
     if session.get('username') == None:
         name = request.cookies.get('username')
         token = request.cookies.get('rememberme')
         if name and token:
-            auth_svc.validate_rememberme(name,token)
+            auth_svc.rememberme_validate(name,token)
 
 
 if __name__ == '__main__':

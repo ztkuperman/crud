@@ -21,6 +21,7 @@
       {% else %}
         '/update/{{post_id}}'
           {% endif %}>
+      <input type="hidden" name="csrf_token" value={{csrf_token}}>
       <label for="title"></label>
       <input type="string" name="title" value="{{title}}"/>
       <label for="editor"></label>

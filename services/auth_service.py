@@ -7,7 +7,8 @@ from sqlalchemy.exc import IntegrityError
 import os
 import base64
 
-# Sign up
+#### User authentication
+## Sign up
 def add_new_user(name,email,password):
     user = User()
     user.name = name
@@ -25,7 +26,7 @@ def add_new_user(name,email,password):
         sess.close()
     return ""
 
-# Login
+## Login
 def login_user(name, password='', remembered=False):
 
     sess = db_session.create_session()
@@ -36,13 +37,14 @@ def login_user(name, password='', remembered=False):
             sess.commit()
             session['username'] = user.name
             return True
-        else:
-            return False
+    except:
+        pass
     finally:
         sess.close()
+    return False
 
 
-# Logout
+## Logout
 def logout_user():
     name = session['username']
     sess = db_session.create_session()
@@ -55,14 +57,15 @@ def logout_user():
     session.pop('username')
 
 
-# Remember Me tokens
+#### Remember Me tokens
 # Design Decisions:
 # If a new session starts and the username and rememberme cookies are
 # present and valid, then the user can be automatically logged in.
-# As a security precaution, the token is hashed and stored in the DB.
-# This prevents an attacker from stealing these tokens, which bypass
-# the normal password authentication.
-def set_rememberme(name):
+# This means a rememberme cookie acts like a password for auth purposes.
+# Therefore, the rememberme cookie must be secured like a password.
+# Like a password, the token is hashed before being stored in the DB.
+
+def rememberme_new_token(name):
     sess = db_session.create_session()
     try:
         user = sess.query(User).filter(User.name == name).first()
@@ -74,7 +77,7 @@ def set_rememberme(name):
     return rememberme_token
 
 
-def validate_rememberme(name, token):
+def rememberme_validate(name, token):
     sess = db_session.create_session()
     try:
         user = sess.query(User).filter(User.name == name).first()
@@ -85,4 +88,22 @@ def validate_rememberme(name, token):
     finally:
         sess.close()
 
+#### CSRF Tokens
+# Design Decisions:
+# These functions can be used to create new random tokens for each form.
+# The view method can have the token validated to prevent CSRF attacks.
+# Each new token is added to a token list stored in the session.
+# Once validated, the token is removed from the list.
+# If the session ends (i.e. the browser is closed), all CSRF tokens are
+# invalidated.
+def csrf_new_token():
+    csrf_token = base64.b64encode(os.urandom(32)).decode('ascii')
+    session['csrf_tokens'].append(csrf_token)
+    return csrf_token
 
+def csrf_validate(token):
+    if token in session['csrf_tokens']:
+        session['csrf_tokens'].remove(token)
+        return True
+    else:
+        return False

@@ -7,7 +7,7 @@
     <li> 
         <article>
             <h2><a href="/read/{{p.id}}">{{p.title}}</a></h2> 
-            <p>{{p.content}}</p>
+            {{p.content|safe}}
         </article> 
     </li>
     {% endfor %}
