@@ -3,19 +3,15 @@ from sqlalchemy.orm import session
 
 import crud.data.db_session as db_session
 from crud.data.post import Post
-
-test_data = [
-    {'id': 1, 'title': "Post 1", "content": "My First Post"},
-    {'id': 2, 'title': "Post 2", "content": "My Second Post"},
-    {'id': 3, 'title': "Post 3", "content": "My Third Post"},
-    ]
+from datetime import datetime as dt
 
 ## Create
-def create_post(title: str, content: str):
+def create_post(title: str, content: str, author:str):
 
     post = Post()
     post.title = title
     post.content = content
+    post.author = author
 
     session = db_session.create_session()
     try:
@@ -27,10 +23,14 @@ def create_post(title: str, content: str):
     return post.id
 
 ## Read
-def get_posts():
+def get_posts(author='%', status='%'):
+    filters = {'author':author,'pub_status':status}
     session = db_session.create_session()
     try:
-        posts = session.query(Post).order_by(Post.id).all()
+        query = session.query(Post)
+        for column, value in filters.items():
+            query = query.filter(getattr(Post,column).like(value))
+        posts = query.order_by(Post.modified_date.desc()).all()
     finally:
         session.close()
     return posts
@@ -52,12 +52,13 @@ def update_post(id:int, title: str, content: str):
         post = session.query(Post).filter(Post.id == id).first()
         post.title = title
         post.content = content
+        post.modified_date = dt.now()
         session.commit()
     finally:
         session.close()
     return
 
-#Delete
+## Delete
 def delete_post(id:int):
 
     session = db_session.create_session()
@@ -69,4 +70,12 @@ def delete_post(id:int):
 
     return
 
-
+## Publish
+def publish_post(id:int):
+    session = db_session.create_session()
+    try:
+        post = session.query(Post).filter(Post.id==id).first()
+        post.pub_status = 'public'
+        session.commit()
+    finally:
+        session.close()

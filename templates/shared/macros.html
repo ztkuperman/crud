@@ -1,0 +1,11 @@
+{% macro post(p) -%}
+    <article>
+        <h5>Status: {{p.pub_status}}</h5>
+        <a href="/read/{{p.id}}"><h2>{{p.title}}</h2></a>
+        <p>{{p.content|safe}}</p>
+        <footer> 
+            <p>{{p.author}}</p>
+            <p>{{p.date}}</P>
+        </footer>
+    </article>
+{%- endmacro %}

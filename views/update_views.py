@@ -1,5 +1,5 @@
 import flask
-from flask import redirect, url_for, request
+from flask import redirect, url_for, request, session
 from flask_wtf import Form
 from wtforms import StringField, TextField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -20,7 +20,8 @@ def create_post():
     if auth_svc.csrf_validate(request.form.get('csrf_token')):
         title = request.form['title']
         content = request.form['editor']
-        post_id = post_svc.create_post(title,content)
+        author = session.get('username')
+        post_id = post_svc.create_post(title,content,author)
         return redirect(url_for('read.read',post_id=post_id))
     else:
         return redirect(url_for('editor.tinymce',post_id=0))
@@ -47,3 +48,10 @@ def delete():
     if auth_svc.csrf_validate(request.form.get('csrf_token')):
         post_svc.delete_post(request.form.get('post_id'))
     return redirect(url_for('read.index'))
+
+@blueprint.route('/publish', methods=['POST'])
+def publish():
+    post_id = request.form.get('post_id')
+    if auth_svc.csrf_validate(request.form.get('csrf_token')):
+        post_svc.publish_post(post_id)
+    return redirect(url_for('read.read', post_id=post_id))
