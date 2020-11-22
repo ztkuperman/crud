@@ -12,6 +12,7 @@ def create_post(title: str, content: str, author:str):
     post.title = title
     post.content = content
     post.author = author
+    post.pub_status = 'private'
 
     session = db_session.create_session()
     try:
@@ -58,6 +59,17 @@ def update_post(id:int, title: str, content: str):
         session.close()
     return
 
+
+def update_publish(id:int, status:str):
+    session = db_session.create_session()
+    try:
+        post = session.query(Post).filter(Post.id==id).first()
+        post.pub_status = status
+        session.commit()
+    finally:
+        session.close()
+
+
 ## Delete
 def delete_post(id:int):
 
@@ -69,13 +81,3 @@ def delete_post(id:int):
         session.close()
 
     return
-
-## Publish
-def publish_post(id:int):
-    session = db_session.create_session()
-    try:
-        post = session.query(Post).filter(Post.id==id).first()
-        post.pub_status = 'public'
-        session.commit()
-    finally:
-        session.close()

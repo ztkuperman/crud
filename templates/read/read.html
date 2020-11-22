@@ -4,13 +4,15 @@
 {% block additional_js %} {% endblock %}
 {% block main_content %}
     <div>
-        <button><a href="/update/{{post.id}}">Edit</a></button>
-        <form action='/delete' method='POST'>
+        {% if session.username == post.author %}
+        <form action='/publish' method='POST'>
             <input type="hidden" name="csrf_token" value={{csrf_token}}>
             <input type="hidden" name="post_id" value={{post.id}}>
-            <button type='submit' formaction='/publish' onclick="return confirm('Are you sure you want to publish this post?');">Publish</button> 
+            {{macros.pub_status_form(post)}} 
+            <button><a href="/update/{{post.id}}">Edit</a></button>
             <button type='submit' formaction='/delete' onclick="return confirm('Are you sure you want to delete this post?');">Delete</button> 
         </form>
+        {% endif %}
         {{ macros.post(post) }}
     </div>
 {% endblock %}

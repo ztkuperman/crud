@@ -5,7 +5,9 @@
 {% block main_content %}
 <form method="post" accept-charset="utf-8">
     {% for message in get_flashed_messages() %}
+    <div class='alert alert-danger'>
     {{message}}
+    </div>
     {% endfor %}
     <input type="hidden" name="csrf_token" value={{csrf_token}}>
     <label for='name'>Name</label>

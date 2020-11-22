@@ -9,3 +9,18 @@
         </footer>
     </article>
 {%- endmacro %}
+
+{% macro pub_status_form(p) -%}
+ <fieldset>
+    <legend>Publication Status</legend>
+    <label for="public">Public</label>
+    <input type="radio" name="pub_status" id='public' value='public' onclick="this.form.submit()"
+    {% if p.pub_status == 'public' %} checked='checked' {% endif %} >
+    <label for="draft">Draft</label>
+    <input type="radio" name="pub_status" id='draft' value='draft' onclick="this.form.submit()"
+    {% if p.pub_status == 'draft' %} checked='checked' {% endif %} >
+    <label for="private">Private</label>
+    <input type="radio" name="pub_status" id=private' value='private' onclick="this.form.submit()"
+    {% if p.pub_status == 'private' %} checked='checked' {% endif %} >
+</fieldset>
+{% endmacro %}

@@ -1,5 +1,7 @@
 import flask
+from flask import session
 from infrastructure.view_modifiers import response
+
 import services.post_service as post_svc
 import services.auth_service as auth_svc
 blueprint = flask.Blueprint('read', __name__, template_folder='templates')
@@ -20,4 +22,10 @@ def read(post_id: int):
 @response(template_file='read/drafts.html')
 def drafts():
     posts = post_svc.get_posts(status='draft')
+    return {'posts':posts}
+
+@blueprint.route('/myposts')
+@response(template_file='read/myposts.html')
+def myposts():
+    posts = post_svc.get_posts(author=session['username'])
     return {'posts':posts}

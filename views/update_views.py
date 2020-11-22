@@ -1,5 +1,5 @@
 import flask
-from flask import redirect, url_for, request, session
+from flask import redirect, url_for, request, session, flash
 from flask_wtf import Form
 from wtforms import StringField, TextField, SubmitField
 from wtforms.validators import DataRequired, Length
@@ -38,9 +38,10 @@ def update_post(post_id: int):
         title = request.form['title']
         content = request.form['editor']
         post_svc.update_post(post_id,title,content)
-        return redirect(url_for('read.read', post_id=post_id))
+        flash(f"Save successful. Post #{post_id} Updated.")
     else:
-        return redirect(url_for('editor.tinymce', post_id=post_id))
+        flash('Error: Save unsuccessful')
+    return redirect(url_for('editor.tinymce', post_id=post_id))
 
 
 @blueprint.route('/delete', methods=["POST"])
@@ -52,6 +53,7 @@ def delete():
 @blueprint.route('/publish', methods=['POST'])
 def publish():
     post_id = request.form.get('post_id')
+    pub_status = request.form.get('pub_status')
     if auth_svc.csrf_validate(request.form.get('csrf_token')):
-        post_svc.publish_post(post_id)
+        post_svc.update_publish(post_id, pub_status)
     return redirect(url_for('read.read', post_id=post_id))
