@@ -4,11 +4,6 @@
 {% block title %} Drafts {% endblock %}
 {% block main_content %}
 
-<ul>
-    {% for p in posts %}
-    <li> 
-        {{ macros.post(p) }}
-    </li>
-    {% endfor %}
-</ul>
+{{ macros.post_display(posts) }}
+
 {% endblock %}

@@ -4,13 +4,15 @@
 {% block additional_js %} {% endblock %}
 {% block main_content %}
     <div>
-        {% if session.username == post.author %}
+        {% if session.username == post.author or session.role == 'editor' %}
         <form action='/publish' method='POST'>
             <input type="hidden" name="csrf_token" value={{csrf_token}}>
             <input type="hidden" name="post_id" value={{post.id}}>
             {{macros.pub_status_form(post)}} 
+            {% if session.username == post.author %}
             <button><a href="/update/{{post.id}}">Edit</a></button>
             <button type='submit' formaction='/delete' onclick="return confirm('Are you sure you want to delete this post?');">Delete</button> 
+            {% endif %}
         </form>
         {% endif %}
         {{ macros.post(post) }}

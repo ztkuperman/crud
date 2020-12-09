@@ -28,6 +28,6 @@
       <label for="title"></label>
       <input type="string" name="title" value="{{title}}"/>
       <label for="editor"></label>
-      <textarea id="editor" name='editor'>{{content}}</textarea>
+      <textarea id="editor" name='editor'>{{content|safe}}</textarea>
     </form>
 {% endblock %}

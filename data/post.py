@@ -16,7 +16,7 @@ class Post(SqlAlchemyBase):
     created_date: datetime.datetime = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
     modified_date: datetime.datetime = sa.Column(sa.DateTime, default=datetime.datetime.now, index=True)
 
-    pub_status: str = sa.Column(sa.String, nullable=False, default="draft", index=True)
+    pub_status: str = sa.Column(sa.String, nullable=True, default="draft", index=True)
 
     def __repr__(self):
         return '<Post {}>'.format(self.id)

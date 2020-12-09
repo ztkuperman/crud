@@ -1,12 +1,10 @@
 import flask
 from flask import redirect, url_for, request, session, flash
-from flask_wtf import Form
-from wtforms import StringField, TextField, SubmitField
-from wtforms.validators import DataRequired, Length
 
 from infrastructure.view_modifiers import response
 import services.post_service as post_svc
-import services.auth_service as auth_svc
+import services.user_service as user_svc
+
 blueprint = flask.Blueprint('update', __name__, template_folder='templates')
 
 
@@ -17,7 +15,7 @@ def create():
 
 @blueprint.route('/create', methods=['post'])
 def create_post():
-    if auth_svc.csrf_validate(request.form.get('csrf_token')):
+    if user_svc.csrf_validate(request.form.get('csrf_token')):
         title = request.form['title']
         content = request.form['editor']
         author = session.get('username')
@@ -34,7 +32,7 @@ def update_get(post_id: int):
 
 @blueprint.route('/update/<int:post_id>', methods=['post'])
 def update_post(post_id: int):
-    if auth_svc.csrf_validate(request.form.get('csrf_token')):
+    if user_svc.csrf_validate(request.form.get('csrf_token')):
         title = request.form['title']
         content = request.form['editor']
         post_svc.update_post(post_id,title,content)
@@ -46,7 +44,7 @@ def update_post(post_id: int):
 
 @blueprint.route('/delete', methods=["POST"])
 def delete():
-    if auth_svc.csrf_validate(request.form.get('csrf_token')):
+    if user_svc.csrf_validate(request.form.get('csrf_token')):
         post_svc.delete_post(request.form.get('post_id'))
     return redirect(url_for('read.index'))
 
@@ -54,6 +52,11 @@ def delete():
 def publish():
     post_id = request.form.get('post_id')
     pub_status = request.form.get('pub_status')
-    if auth_svc.csrf_validate(request.form.get('csrf_token')):
-        post_svc.update_publish(post_id, pub_status)
-    return redirect(url_for('read.read', post_id=post_id))
+    if user_svc.csrf_validate(request.form.get('csrf_token')):
+        statuses = post_svc.update_publish(post_id, pub_status)
+    # Redirect to the most public status level
+    if "public" in statuses:
+        return redirect(url_for('read.index'))
+    elif "draft" in statuses:
+        return redirect(url_for('read.drafts'))
+

@@ -13,5 +13,7 @@ class User(SqlAlchemyBase):
     password = sa.Column(sa.String, nullable=True, index=True)
     created_date = sa.Column(sa.DateTime, default=dt.now, index=True)
     profile_image = sa.Column(sa.String)
+    role = sa.Column(sa.String, nullable=True, unique=False)
     last_login = sa.Column(sa.DateTime, default=dt.now, index=True)
     rememberme_token = sa.Column(sa.String, nullable=True)
+    status = sa.Column(sa.String,nullable=True)

@@ -3,12 +3,13 @@
 {% extends "shared/_layout.html" %}
 {% block title %} Index of Published Posts {% endblock %}
 {% block main_content %}
+<div class='container'> 
+<section class='col-md-2'> </section>
 
-<ul>
-    {% for p in posts %}
-    <li> 
-        {{ macros.post(p) }}
-    </li>
-    {% endfor %}
-</ul>
+<section class='col-md-8'> 
+{{ macros.post_display(posts) }}
+</section>
+<section class='col-md-2'> </section>
+</div>
+
 {% endblock %}

@@ -64,10 +64,12 @@ def update_publish(id:int, status:str):
     session = db_session.create_session()
     try:
         post = session.query(Post).filter(Post.id==id).first()
+        old_status = post.pub_status
         post.pub_status = status
         session.commit()
     finally:
         session.close()
+    return (old_status, status)
 
 
 ## Delete
@@ -80,4 +82,13 @@ def delete_post(id:int):
     finally:
         session.close()
 
-    return
+def remove_user_posts(name):
+    sess = db_session.create_session()
+    try:
+        posts = sess.query(Post).filter(Post.author==name).all()
+        for p in posts:
+            p.author = "<deleted>"
+            p.pub_status = "draft"
+        sess.commit()
+    finally:
+        sess.close()

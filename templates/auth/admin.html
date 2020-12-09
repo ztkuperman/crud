@@ -1,0 +1,49 @@
+{% extends "shared/_layout.html" %}
+{% block title %} Admin page {% endblock %}
+{% block addition_css %} {% endblock %}
+{% block additional_js %} {% endblock %}
+{% block main_content %} 
+{% for msg in get_flashed_messages() %}
+<p>{{msg}}</p>
+{% endfor %}
+{{ user_access_table(auth_data) }}
+
+{% endblock %}
+
+{% macro user_access_table(auth_data) -%}
+<table>
+    <caption>User Access Levels</caption>
+    <thead>
+        <tr>
+            <th><label for='name'>User Name</label></th>
+            <th><label for='role'>Access Level</label></th>
+            <th><label for='delete'>Status</label></th>
+        </tr>
+    </thead>
+    <tbody>
+        {% for name,role,status in auth_data %}
+        <tr>
+            <td><input type="text" name="{{ name }}[]" id='name' value="{{ name }}" form="user_auth" readonly /> </td>
+            <td>
+                <select name="{{ name }}[]" id='role' form="user_auth">
+                    <option value="admin" {% if role == 'admin' %} selected{% endif %}>Admin</option>
+                    <option value="author"{% if role == 'author' %} selected{% endif %}>Author</option>
+                    <option value="editor"{% if role == 'editor' %} selected{% endif %}>Editor</option>
+                    <option value="reader"{% if role == 'reader' %} selected{% endif %}>Reader</option>
+                </select>
+            </td>
+            <td>
+                <select name="{{ name }}[]" id='delete' form='user_auth'>
+                    <option value="active" {% if status == "active" %} selected{%endif %}>Active</option>
+                    <option value="deactivated"{% if status == "deactivated" %} selected{%endif %}>Deactivated</option>
+                    <option value="deleted"{% if status == "deleted" %} selected{%endif %}>Deleted</option>
+                </select>
+            </td>
+        </tr>
+        {% endfor %}
+    </tbody>
+</table>
+<form method="post" name='user_auth' id="user_auth" accept-charset="utf-8">
+<button type="submit">Update</button>
+</form>
+{% endmacro %}

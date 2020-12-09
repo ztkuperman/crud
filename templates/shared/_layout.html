@@ -6,19 +6,19 @@
     <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
     <title>{% block title %} {% endblock %}</title>
+    <link rel="shortcut icon" href="{{ url_for('static', filename='favicon.ico') }}">
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous" async></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous" async></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous" async></script>
-    <link rel="stylesheet" href="">
+    <link rel='stylesheet' href="{{url_for('static',filename="css/_layout.css")}}" />
     {% block additional_css %} {% endblock %}
     {% block additional_js %} {% endblock %}
 </head>
 <body>
-  <header id="header" class="">
-    
-
- <nav class="navbar navbar-expand navbar-dark bg-dark">
+  <header id="header" class="container">
+    <nav class="navbar navbar-expand navbar-dark bg-dark col-lg-9 ">
       <a class="navbar-brand" href="/">CRUD app</a>
       <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarsExample01" aria-controls="navbarsExample01" aria-expanded="false" aria-label="Toggle navigation">
         <span class="navbar-toggler-icon"></span>
@@ -26,19 +26,26 @@
 
       <div class="collapse navbar-collapse" id="navbarsExample01">
         <ul class="navbar-nav mr-auto">
-          <li class="nav-item active">
-            <a class="nav-link" href="/">Home <span class="sr-only">(current)</span></a>
-          </li>
-          {% if session.username %}
+          {% if session.role in ['author','editor'] %}
           <li class="nav-item">
             <a class="nav-link" href="/drafts">Drafts</a>
           </li>
+          {% endif %}
+          {% if session.role == 'author' %}
+          
           <li class="nav-item">
             <a class="nav-link" href="/myposts">My Posts</a>
           </li>
           <li class="nav-item">
             <a class="nav-link" href="/create">Create</a>
           </li>
+          {% endif %}
+          {% if session.role == 'admin' %}
+          <li class="nav-item">
+            <a class="nav-link" href="/admin">Admin</a>
+          </li>
+          {% endif %}
+          {% if session.logged_in %}
           <li class="nav-item">
             <a class="nav-link" href="/logout">Logout</a>
           </li>
@@ -48,16 +55,12 @@
           </li>
           {% endif %} 
         </ul>
+      </div>  
+      <div id='user' class='col-lg-3 nav-item bg-dark'>
+          Hello, {{session.username}} ({{session.role}})
       </div>
-    </nav>
-    <div id='user'>
-      {% if session.username %} 
-        Hello, {{session.username}}
-      {% else %}
-        Hello, Guest
-      {% endif %}
-    </div>
-    </header><!-- /header -->
+    </nav>   
+  </header>
         {% block main_content %} {% endblock %}
 </body>
 </html>

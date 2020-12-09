@@ -1,0 +1,28 @@
+{% extends "shared/_layout.html" %}
+{% block title %} Login {% endblock %}
+{% block addition_css %} {% endblock %}
+{% block additional_js %} {% endblock %}
+{% block main_content %}
+<div id="login_form">
+<form method="post" accept-charset="utf-8">
+    {% for message in get_flashed_messages() %}
+    <div class='alert alert-danger'>
+    {{message}}
+    </div>
+    {% endfor %}
+    <div class='form-group'>
+    <input type="hidden" name="csrf_token" value={{csrf_token}}>
+    <label for='name'>Username</label>
+    <input class='form-control 'type="text" id='name' name="name" value="">
+    <label for='password'>Password</label>
+    <input class='form-control ' type="password" id='password' name="password" value="">
+    </div>
+    <div class='form-check'>
+    <label class='form-check-label' for="rememberme">Remember Me</label>
+    <input class='form-control-input' type="checkbox" id='rememberme' name="rememberme">     
+    </div>   
+    <button type="submit" class="btn btn-primary">Login</button>
+</form>
+<a href="/signup" title="signup" class='btn btn-link'>Create new account</a>
+</div>
+{% endblock %}
