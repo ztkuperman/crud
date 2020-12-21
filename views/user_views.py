@@ -25,7 +25,8 @@ def signup_post():
 
     csrf_valid = user_svc.csrf_validate(csrf_token)
     msg = user_svc.add_new_user(name,email,password)
-    if msg == "" and csrf_valid:
+    print(msg)
+    if msg == None and csrf_valid:
         msg = user_svc.login_user(form['name'], form['password'])
         return redirect(url_for('read.index'))
     else:
@@ -66,7 +67,8 @@ def login_post():
 @blueprint.route('/logout')
 @response(template_file='user/logout.html')
 def logout():
-    user_svc.logout_user()
+    if session.get('username') != 'Guest':
+        user_svc.logout_user()
     @after_this_request
     def set_cookies(response):
         response.set_cookie('username', '', expires=0)
@@ -87,7 +89,7 @@ def authentication_check():
         if name and token:
             user_svc.rememberme_validate(name,token)
         else:
-            session['username'] = "Reader"
+            session['username'] = "Guest"
             session['role'] = "Guest"
     # Make sure a CSRF token list exists
     if session.get('csrf_tokens') == None:

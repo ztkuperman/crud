@@ -16,10 +16,9 @@
     <article class='list-group-item'>
         <h5>Status: {{p.pub_status}}</h5>
         <a href="/read/{{p.id}}"><h2>{{p.title}}</h2></a>
-        <p>{{p.content|safe}}</p>
+        {{p.content|safe}}
         <footer> 
-            <p>{{p.author}}</p>
-            <p>{{p.date}}</P>
+            <p>By: {{p.author}} Updated: {{p.modified_date.strftime('%x %R')}}</P>
         </footer>
     </article>
 {%- endmacro %}

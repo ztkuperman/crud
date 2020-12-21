@@ -16,6 +16,7 @@ def add_new_user(name,email,password, role='reader'):
     user.email = email
     user.password = generate_password_hash(password)
     user.role = role
+    user.status = 'active'
 
     sess = db_session.create_session()
     try:
@@ -41,6 +42,7 @@ def login_user(name, password='', remembered=False):
             session['username'] = user.name
             session['role'] = user.role
             session['logged_in'] = True
+            print(f'User {user.name} sucessfully logged in.')
             return True
     except:
         pass
@@ -53,6 +55,7 @@ def login_user(name, password='', remembered=False):
 def logout_user():
     name = session['username']
     sess = db_session.create_session()
+    print(f'User {name} logged out.')
     try:
         user = sess.query(User).filter(User.name == name).first()
         user.rememberme_token = None
@@ -134,14 +137,16 @@ def user_authorization_update(new_user_auth):
 
     try:
         count=0
-        users = sess.query(User).all()
+        users = sess.query(User).all() # Remove this line
         for name,[role,status] in new_user_auth.items():
             if old_user_auth[name] != new_user_auth[name]:
-                user = sess.query(User).filter(User.name == name).first()
-                user.role = role
-                user.status = status
                 if status == 'deleted':
-                    post_svc.remove_user_posts(user.name)
+                    post_svc.remove_user_posts(name)
+                    sess.query(User).filter(User.name==name).delete()
+                else: # For every other status change
+                    user = sess.query(User).filter(User.name == name).first()
+                    user.role = role
+                    user.status = status
                 count += 1
         sess.commit()
     finally:

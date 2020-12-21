@@ -1,0 +1,19 @@
+ul {
+    list-style-type: none;
+}
+
+#post_list {
+    margin: 10px;
+}
+
+.list-group-item {
+    margin:  10px;
+}
+
+article > h5 {}
+article > a {}
+article > p {}
+article > footer {
+    background: lightgrey;
+    font-style: italic;
+}
