@@ -1,0 +1,14 @@
+
+caption{
+    caption-side: top;
+}
+
+td,th{
+   line-height: normal; 
+   padding-left: 10px;
+}
+
+
+select{
+    width:100%;
+}

@@ -1,0 +1,44 @@
+#post_list {
+    margin: auto;
+    max-width: 60em;
+}
+
+ul {
+    list-style-type: none;
+}
+
+/*Blog Post */
+article{
+    margin:  10px;
+    overflow: hidden;
+    padding:  0px;
+}
+/* Blog Post status */
+article > h5 {
+    height:  10px;
+}
+/* Blog post title */
+article > a > h2 {
+    display: block;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    white-space: nowrap;
+    height: 40px;
+}
+/* Blog post paragraphs */
+article > p {
+    display: none;
+}
+article > p:first-of-type {
+    line-height: 2.5ex;
+    height:  7.5ex;
+    display: -webkit-box;
+    overflow: hidden;
+    -webkit-line-clamp: 3;
+    -webkit-box-orient: vertical; 
+}
+/* Blog post footer */
+article > footer {
+    background: lightgrey;
+    font-style: italic;
+}

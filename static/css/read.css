@@ -1,0 +1,27 @@
+#pub_status{
+    width: 50%;
+    margin: auto;
+    border: 1px;
+    border-style: solid;
+
+}
+
+/*Blog Post */
+article{
+    margin:  2em;
+    overflow: hidden;
+    padding:  0px;
+}
+/* Blog Post status */
+article > h5 {
+    height:  10px;
+}
+/* Blog post title */
+article > a > h2 {
+    display: block;
+}
+/* Blog post footer */
+article > footer {
+    background: lightgrey;
+    font-style: italic;
+}

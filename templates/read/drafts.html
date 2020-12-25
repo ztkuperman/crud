@@ -1,9 +1,17 @@
 {% import "/shared/macros.html" as macros %}
 
 {% extends "shared/_layout.html" %}
+{% block additional_css %} 
+<link rel='stylesheet' href="{{url_for('static',filename="css/drafts.css")}}" />
+{% endblock %}
 {% block title %} Drafts {% endblock %}
 {% block main_content %}
+<div class='container'> 
+<section class='col-md-2'></section>
 
+<section id='post_list' class='col-md-8'> 
 {{ macros.post_display(posts) }}
-
+</section>
+<section class='col-md-2'></section>
+</div>
 {% endblock %}

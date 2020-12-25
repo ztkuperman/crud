@@ -1,6 +1,8 @@
 {% extends "shared/_layout.html" %}
 {% block title %} Admin page {% endblock %}
-{% block addition_css %} {% endblock %}
+{% block additional_css %} 
+<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='css/admin.css')}}">
+{% endblock %}
 {% block additional_js %} {% endblock %}
 {% block main_content %} 
 {% for msg in get_flashed_messages() %}
@@ -44,6 +46,6 @@
     </tbody>
 </table>
 <form method="post" name='user_auth' id="user_auth" accept-charset="utf-8">
-<button type="submit">Update</button>
+<button class='btn btn-primary' type="submit">Update</button>
 </form>
 {% endmacro %}
