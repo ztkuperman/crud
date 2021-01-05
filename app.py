@@ -6,7 +6,8 @@ from flask import session, request
 from flask_session import Session
 folder = os.path.abspath(os.path.join(os.path.dirname(__file__), '..'))
 sys.path.insert(0, folder)
-
+import services.user_service as user_svc
+import base64
 import crud.data.db_session as db_session
 import crud.oso.oso_auth as oso_auth
 
@@ -41,7 +42,13 @@ def configure():
 
     setup_db()
     print("DB setup completed.")
+    if not user_svc.users_exist():
+        print("Initializing first user.")
+        pwd = base64.standard_b64encode(os.urandom(32))
+        print(f"Creating user 'admin', password is {pwd}")
+        user_svc.add_new_user("admin","admin@127.0.0.1",pwd, role='admin')
     print("", flush=True)
+
 
 
 def setup_db():
