@@ -1,0 +1,15 @@
+[Unit]
+Description=uWSGI PyPI server instance
+After=syslog.target
+
+[Service]
+ExecStart=/crud/venv/bin/uwsgi -H /crud/venv --master --processes 4 --threads 2 --http :5000 --manage-script-name --python-path /crud/crud --mount /=wsgi:app
+RuntimeDirectory=/crud/crud
+Restart=always
+KillSignal=SIGQUIT
+Type=notify
+StandardError=syslog
+NotifyAccess=all
+
+[Install]
+WantedBy=multi-user.target

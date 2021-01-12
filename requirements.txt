@@ -1,0 +1,14 @@
+flask
+flask-wtf
+wtforms
+werkzeug==0.16.0
+sqlalchemy
+# Server side session & cache
+flask-session
+redis
+#Auth
+flask-oso
+
+
+
+
