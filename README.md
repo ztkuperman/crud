@@ -4,7 +4,10 @@ Doesn't have any tests in the repo.
 Does work, but has some rough edges/missing features.
 
 # Build Instructions
-(This might not be 100%)
+### requirements.txt
+The full requirements.txt also has dev stuff in it. (ipython, alembic, ...)
+The requirements-chill.txt is generated with pip-chill, and has the dev stuff removed. (I haven't tested to make sure that it is fully functional)
+### Build
 Clone the repo. Delete db/crud.sqlite. Run the app with python app.py. When it initializes the DB, it will print the admin credentials to the terminal.
 
 # Design Patterns
